@@ -20,13 +20,28 @@ export const userSlice = createSlice({
             localStorage.setItem("@Users", JSON.stringify(state.value))
         },
         edit: (state, { payload }: PayloadAction<iContact>) => {
-            return;
+            const index = state.value.findIndex(user => user.id === payload.id)
+            const user: any = payload.user
+
+            for (let key in user){
+                if(!user[key]){
+                    delete user[key]
+                }
+            }
+
+            const editUser = {...state.value[index], ...payload.user}
+            state.value[index] = editUser 
+            localStorage.setItem("@Users", JSON.stringify(state.value))
         },
         remove: (state, { payload }: PayloadAction<iContact>) => {
             state.value = state.value.filter(user => user.id !== payload.id)
+            localStorage.setItem("@Users", JSON.stringify(state.value))
         },
+        update: (state, { payload }: PayloadAction<iContact[]>) => {
+            state.value = payload
+        }
     }
 })
 
-export const {save, edit, remove} = userSlice.actions
+export const {save, edit, remove, update} = userSlice.actions
 export const userReducer = userSlice.reducer

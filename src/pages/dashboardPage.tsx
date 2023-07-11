@@ -4,11 +4,10 @@ import { Modal, Table } from 'antd';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { remove } from "../features/users/user-slicer"
+import { remove,update } from "../features/users/user-slicer"
 import { RootState } from '../store';
 import { ModalCreateUser } from '../components/modalCreate';
 import { ModalEditUser } from '../components/modalEdit';
-
 
 export interface iContact{
     id?: number;
@@ -17,25 +16,21 @@ export interface iContact{
     email: string;
     name: string;
     phoneNumber: string;
+    user?: iContact;
 }
 
-/**
- * 1- Criar lista de contatos
- * 2- UseEffect pra ver se tem no LS
- */
-
 export const DashboardPage = () => {
-    const users = useSelector((state: RootState) => state.users.value);
-    const dispatch = useDispatch();
-
     const [isModalOpenCreate, setIsModalCreateOpen] = useState(false);
     const [isModalOpenEdit, setIsModalEditOpen] = useState(false);
+    const [recordEdit, setRecordEdit] = useState<iContact | null>(null)
+    
+    const users = useSelector((state: RootState) => state.users.value);
+    const dispatch = useDispatch();
     const { confirm } = Modal;
 
     useEffect(() => {
-        const usersList = localStorage.getItem("@Users")
-        // console.log(JSON.parse(usersList));
-        // dispatch(update())
+        const usersList: iContact[] = JSON.parse(localStorage.getItem("@Users") as any)
+        dispatch(update(usersList))
     }, [])
 
     const showDeleteConfirm = (record: iContact) => {
@@ -60,6 +55,7 @@ export const DashboardPage = () => {
     };
     
     const showModalEdit = (record: iContact) => {
+        setRecordEdit(record)
         setIsModalEditOpen(true);
     };
 
@@ -110,9 +106,9 @@ export const DashboardPage = () => {
 
     return (
         <main>
-            <div>
-                <div>
-                    <p>contatos</p>
+            <div className='boxTable'>
+                <div className='boxInfo'>
+                    <p>Usuários</p>
                     <button onClick={showModalCreate}>
                         <UserAddOutlined />
                     </button>
@@ -120,7 +116,7 @@ export const DashboardPage = () => {
                 <Table columns={columns} dataSource={users}></Table>
             </div>
             <ModalCreateUser isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalCreateOpen}/>
-            <ModalEditUser isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEditOpen}/>
+            <ModalEditUser isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEditOpen} record={recordEdit}/>
         </main>
     )
 }

@@ -9,13 +9,34 @@ main {
 }
 
 .boxForm {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  margin: 0 auto;
-  background-color: aqua;
+  max-width: 50%;
+  margin: auto;
+  padding-top: 10%;
+  background-color: aliceblue;
 }
 .boxForm form {
-  min-width: 20%;
-  background-color: red;
+  max-width: 50%;
+}
+
+.boxTable {
+  max-width: 50%;
+  margin: auto;
+  padding-top: 5%;
+}
+.boxTable .boxInfo {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+}
+.boxTable .boxInfo p {
+  font-size: 20px;
+  font-weight: 700;
+}
+.boxTable .boxInfo button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.boxTable .boxInfo button span > svg {
+  font-size: 20px;
 }/*# sourceMappingURL=style.css.map */
