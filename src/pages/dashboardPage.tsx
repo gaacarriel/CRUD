@@ -30,7 +30,9 @@ export const DashboardPage = () => {
 
     useEffect(() => {
         const usersList: iContact[] = JSON.parse(localStorage.getItem("@Users") as any)
-        dispatch(update(usersList))
+        if(usersList){
+            dispatch(update(usersList))
+        }
     }, [])
 
     const showDeleteConfirm = (record: iContact) => {
