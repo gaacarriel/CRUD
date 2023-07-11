@@ -1,6 +1,6 @@
 import { UserAddOutlined, EditOutlined, UserDeleteOutlined } from '@ant-design/icons'
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Modal, Table } from 'antd';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { ModalEditUser } from '../components/modalEdit';
 
 
 export interface iContact{
+    id?: number;
     cpf: string;
     dateOfBirth: string;
     email: string;
@@ -32,11 +33,12 @@ export const DashboardPage = () => {
     const { confirm } = Modal;
 
     useEffect(() => {
-        const contacts = localStorage.getItem("@ContactList")
+        const usersList = localStorage.getItem("@Users")
+        // console.log(JSON.parse(usersList));
         // dispatch(update())
     }, [])
 
-    const showDeleteConfirm = () => {
+    const showDeleteConfirm = (record: iContact) => {
         confirm({
             title: 'Quer mesmo deletar este contato?',
             icon: <ExclamationCircleFilled />,
@@ -45,7 +47,7 @@ export const DashboardPage = () => {
             okType: 'danger',
             cancelText: 'Não',
             onOk() {
-                dispatch(remove())
+                dispatch(remove(record))
             },
             onCancel() {
                 console.log('Cancel');
@@ -57,9 +59,54 @@ export const DashboardPage = () => {
         setIsModalCreateOpen(true);
     };
     
-    const showModalEdit = () => {
+    const showModalEdit = (record: iContact) => {
         setIsModalEditOpen(true);
     };
+
+    const columns = [
+        {
+            key: '1',
+            title: "ID",
+            dataIndex: 'id'
+        },
+        {
+            key: '2',
+            title: "Nome",
+            dataIndex: 'name'
+        },
+        {
+            key: '3',
+            title: "Email",
+            dataIndex: 'email'
+        },
+        {
+            key: '4',
+            title: "CPF",
+            dataIndex: 'cpf'
+        },
+        {
+            key: '5',
+            title: "Telefone",
+            dataIndex: 'phoneNumber'
+        },
+        {
+            key: '6',
+            title: "Data de Nascimento",
+            dataIndex: 'dateOfBirth'
+        },
+        {
+            key: '7',
+            title: "Actions",
+            render: (record: iContact) => {
+                return <>
+                    <EditOutlined onClick={() => showModalEdit(record)} />
+                    <UserDeleteOutlined 
+                    onClick={() => showDeleteConfirm(record)} 
+                    style={{color: "red", margin: 12}} />
+                </>
+            }
+        },
+    ]
 
     return (
         <main>
@@ -70,23 +117,7 @@ export const DashboardPage = () => {
                         <UserAddOutlined />
                     </button>
                 </div>
-                <ul>
-                    {users?.map((user) => <li>
-                        <div>
-                            <p>{user.name}</p>
-                            <p>{user.email}</p>
-                            <p>{user.phoneNumber}</p>
-                        </div>
-                        <div>
-                            <button onClick={showModalEdit}>
-                                <EditOutlined />
-                            </button>
-                            <button onClick={showDeleteConfirm}>
-                                <UserDeleteOutlined />
-                            </button>
-                        </div>
-                    </li>)}
-                </ul>
+                <Table columns={columns} dataSource={users}></Table>
             </div>
             <ModalCreateUser isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalCreateOpen}/>
             <ModalEditUser isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEditOpen}/>

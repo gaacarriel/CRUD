@@ -15,14 +15,15 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         save: (state, { payload } : PayloadAction<iContact>) => {
+            payload.id = state.value.length + 1
             state.value.push(payload)
-            console.log(payload);
+            localStorage.setItem("@Users", JSON.stringify(state.value))
         },
-        edit: (state, { payload } : PayloadAction<iContact>) => {
+        edit: (state, { payload }: PayloadAction<iContact>) => {
             return;
         },
-        remove: (state) => {
-            state.value.filter(u => u.cpf == '')
+        remove: (state, { payload }: PayloadAction<iContact>) => {
+            state.value = state.value.filter(user => user.id !== payload.id)
         },
     }
 })
