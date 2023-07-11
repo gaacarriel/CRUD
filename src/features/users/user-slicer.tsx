@@ -15,7 +15,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         save: (state, { payload } : PayloadAction<iContact>) => {
-            payload.id = state.value.length + 1
+            payload.id = state.value == null ? 1 : state.value.length + 1
             state.value.push(payload)
             localStorage.setItem("@Users", JSON.stringify(state.value))
         },
