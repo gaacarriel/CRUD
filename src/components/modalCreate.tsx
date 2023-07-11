@@ -13,7 +13,7 @@ export const ModalCreateUser = ({ isModalOpen, setIsModalOpen }: iPropsModal) =>
     const [form] = Form.useForm();
     const userData = Form.useWatch([], form);
     const dispatch = useDispatch()
-    const [valueCpf, setValueCpf] = useState('')
+    // const [valueCpf, setValueCpf] = useState('')
 
 
     const handleOk = () => {
@@ -25,15 +25,15 @@ export const ModalCreateUser = ({ isModalOpen, setIsModalOpen }: iPropsModal) =>
         setIsModalOpen(false);
     };
 
-    const mascaraCpf = (value: string) => {
-        if(valueCpf.length === 2 || valueCpf.length === 6){
-            setValueCpf(value + '.')
-        }else if(valueCpf.length === 10){
-            setValueCpf(value + '-')
-        }else{
-            setValueCpf(value)
-        }
-    }
+    // const mascaraCpf = (value: string) => {
+    //     if(valueCpf.length === 2 || valueCpf.length === 6){
+    //         setValueCpf(value + '.')
+    //     }else if(valueCpf.length === 10){
+    //         setValueCpf(value + '-')
+    //     }else{
+    //         setValueCpf(value)
+    //     }
+    // }
 
     return(
         <Modal title="Cadastrar contato" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
