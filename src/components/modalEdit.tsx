@@ -14,7 +14,6 @@ export const ModalEditUser = ({ isModalOpen, setIsModalOpen, record }: iPropsMod
     const userData = Form.useWatch([], form);
     const dispatch = useDispatch()
 
-
     const handleOk = () => {
         const newRecord = {...record}
         if(record){
@@ -30,23 +29,23 @@ export const ModalEditUser = ({ isModalOpen, setIsModalOpen, record }: iPropsMod
 
     return(
         <Modal title="Editar contato" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <Form form={form} name="validateOnly" layout="vertical" autoComplete="off">
-                    <Form.Item name="name" label="Nome" rules={[{ required: true }]}>
-                        <Input placeholder={record?.name} />
-                    </Form.Item>
-                    <Form.Item name="email" label="Email" rules={[{ required: true }]}>
-                        <Input placeholder={record?.email} />
-                    </Form.Item>
-                    <Form.Item name="cpf" label="CPF" rules={[{ required: true }]}>
-                        <Input placeholder={record?.cpf} />
-                    </Form.Item>
-                    <Form.Item name="phoneNumber" label="Telefone" rules={[{ required: true }]}>
-                        <Input placeholder={record?.phoneNumber} />
-                    </Form.Item>
-                    <Form.Item name="dateOfBirth" label="Data de Nascimento" rules={[{ required: true }]}>
-                        <Input placeholder={record?.dateOfBirth} />
-                    </Form.Item>
-                </Form>
-            </Modal>
+            <Form form={form} name="validateOnly" layout="vertical" autoComplete="off">
+                <Form.Item name="name" label="Nome" rules={[{ required: true }]}>
+                    <Input defaultValue={record?.name} />
+                </Form.Item>
+                <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+                    <Input defaultValue={record?.email} />
+                </Form.Item>
+                <Form.Item name="cpf" label="CPF" rules={[{ required: true }]}>
+                    <Input defaultValue={record?.cpf} />
+                </Form.Item>
+                <Form.Item name="phoneNumber" label="Telefone" rules={[{ required: true }]}>
+                    <Input defaultValue={record?.phoneNumber} />
+                </Form.Item>
+                <Form.Item name="dateOfBirth" label="Data de Nascimento" rules={[{ required: true }]}>
+                    <Input defaultValue={record?.dateOfBirth} />
+                </Form.Item>
+            </Form>
+        </Modal>
     )
 }

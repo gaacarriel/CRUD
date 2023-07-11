@@ -9,10 +9,12 @@ main {
 }
 
 .boxForm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   max-width: 50%;
   margin: auto;
   padding-top: 10%;
-  background-color: aliceblue;
 }
 .boxForm form {
   max-width: 50%;
