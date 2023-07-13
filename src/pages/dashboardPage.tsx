@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { remove,update } from "../features/users/user-slicer"
+import { save } from "../features/users/record.slicer"
 import { RootState } from '../store';
 import { ModalCreateUser } from '../components/modalCreate';
 import { ModalEditUser } from '../components/modalEdit';
@@ -21,8 +22,9 @@ export interface iContact{
 
 export const DashboardPage = () => {
     const [isModalOpenCreate, setIsModalCreateOpen] = useState(false);
-    const [isModalOpenEdit, setIsModalEditOpen] = useState(false);
+    const [isModalEditOpen, setIsModalEditOpen] = useState(false);
     const [recordEdit, setRecordEdit] = useState<iContact | null>(null)
+    const [loading, setLoading] = useState(true)
     
     const users = useSelector((state: RootState) => state.users.value);
     const dispatch = useDispatch();
@@ -56,9 +58,12 @@ export const DashboardPage = () => {
         setIsModalCreateOpen(true);
     };
     
-    const showModalEdit = (record: iContact) => {
+    const showModalEdit = (record: iContact | null) => {
+        
         setRecordEdit(record)
+        setLoading(false)
         setIsModalEditOpen(true);
+        console.log(isModalEditOpen);
     };
 
     const columns = [
@@ -97,7 +102,10 @@ export const DashboardPage = () => {
             title: "Actions",
             render: (record: iContact) => {
                 return <>
-                    <EditOutlined onClick={() => showModalEdit(record)} />
+                    <EditOutlined onClick={() => {
+                        dispatch(save(record))
+                        showModalEdit(record)                        
+                    }} />
                     <UserDeleteOutlined 
                     onClick={() => showDeleteConfirm(record)} 
                     style={{color: "red", margin: 12}} />
@@ -115,10 +123,16 @@ export const DashboardPage = () => {
                         <UserAddOutlined />
                     </button>
                 </div>
-                <Table columns={columns} dataSource={users}></Table>
+                <Table columns={columns} dataSource={users} rowKey={'id'}></Table>
             </div>
-            <ModalCreateUser isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalCreateOpen}/>
-            <ModalEditUser isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEditOpen} record={recordEdit}/>
+            <ModalCreateUser 
+            isModalOpen={isModalOpenCreate} 
+            setIsModalOpen={setIsModalCreateOpen}/>
+            { !loading && <ModalEditUser 
+            isModalOpen={isModalEditOpen} 
+            setIsModalOpen={setIsModalEditOpen}
+            record={recordEdit}
+            setLoading={setLoading} />}
         </main>
     )
 }

@@ -21,10 +21,14 @@ main{
     form{
         max-width: 50%;
     }
+
+    div{
+        margin: 0px !important;
+    }
 }
 
 .boxTable{
-    max-width: 50%;
+    max-width: 60%;
     margin: auto;
     padding-top: 5%;
 
@@ -47,5 +51,11 @@ main{
                 font-size: 20px;
             }
         }
+    }
+
+    td {
+        text-overflow: ellipsis ;
+        white-space: nowrap;
+        overflow: hidden; 
     }
 }
