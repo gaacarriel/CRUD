@@ -19,9 +19,12 @@ main {
 .boxForm form {
   max-width: 50%;
 }
+.boxForm div {
+  margin: 0px !important;
+}
 
 .boxTable {
-  max-width: 50%;
+  max-width: 60%;
   margin: auto;
   padding-top: 5%;
 }
@@ -41,4 +44,9 @@ main {
 }
 .boxTable .boxInfo button span > svg {
   font-size: 20px;
+}
+.boxTable td {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }/*# sourceMappingURL=style.css.map */
